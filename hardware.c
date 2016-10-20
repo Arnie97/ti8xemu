@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
+#include <hpstring.h>
+#include <hpctype.h>
 
-#include "ti8xemu.h"
 #include "z80.h"
 #include "z80io.h"
 #include "hardware.h"
@@ -13,7 +11,7 @@ static int ROMSIZE;
 static int RAMSIZE;
 static int SAVSIZE;
 static int BMPSIZE;
-static byte CALC;
+static byte CALC = 86;
 static char LINK = 'K';
 static word LinkPort = 0;
 static byte LinkReg = 0;
@@ -45,11 +43,9 @@ static byte VidY = 0;
 static byte VidDir = 7;
 static byte VidMode = 0;
 static byte VidScroll = 0;
-static byte VidCol,VidBit,VidByte;
+static byte VidCol, VidBit;
 static byte* VidPtr;
 
-static dword* lcdmem;
-static dword* vidmem;
 static byte VIDJUMP;
 static byte LCDWIDTH;
 
@@ -921,18 +917,13 @@ void SaveRAM(void)
       //SAVE RAM HERE
 }
 
-void SetCalc(byte c)
-{
-        CALC = c;
-}
-
 void SetLink(char l,char p)
 {
         LINK = toupper(l);
 
         if(((p < '1') || (p > '9')) && (LINK != 'K'))
         {
-                printf("\aInvalid paramaters!\n");
+                // printf("\aInvalid paramaters!\n");
         }
                 
         switch(LINK)
@@ -949,8 +940,7 @@ void SetLink(char l,char p)
                 case 'K':
                         break;
                 default:
-                        printf("\aInvalid paramaters!\n");
-												break;
+                        ;// printf("\aInvalid paramaters!\n");
         }                        
 }
 
@@ -963,9 +953,7 @@ unsigned char ReverseBits(unsigned char num)
 }
 
 void DrawScreen(void)
-{                        
-        byte x;
-        byte y;
+{
 	unsigned char i,j;
 	signed char k;
 	unsigned char *ptr;

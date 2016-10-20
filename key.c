@@ -1,7 +1,8 @@
 #include "key.h"
-#include "2410addr.h"
-#include "misc.h"
-#include "interrupt.h"
+#include "s3c2410.h"
+#define rGPFDAT (*GPFDAT)
+#define rGPGDAT (*GPGDAT)
+#define rGPGCON (*GPGCON)
 
 volatile unsigned int KeyMatrixHi;
 volatile unsigned int KeyMatrixLo;
@@ -14,16 +15,6 @@ void KBD_Config(void)
   KeyMatrixHi=0;
   KeyMatrixLo=0;
   //CurKey=0xFF;
-}
-
-void KBD_EXTIConfig(void)
-{
-
-}
-
-void KBD_TIMConfig(void)
-{
-
 }
 
 void KBD_Scan(void)
@@ -103,20 +94,4 @@ void KBD_Scan(void)
 
     KeyMatrixHi = hi;
     KeyMatrixLo = lo;
-}
-
-void WaitForKey(void)
-{
-
-}
-
-void WaitForCertainKey(unsigned char ck)
-{
-
-}
-
-unsigned char GetKey(void)
-{
-  //KBD_Convert();
-  //return CurKey;
 }

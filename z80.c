@@ -9,14 +9,13 @@
 /***     Please, notify me, if you make any changes to this file          ***/
 /****************************************************************************/
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <hpstdlib.h>
+#include <hpstring.h>
 
 #include "Z80.h"
 #include "z80io.h"
 #include "hardware.h"
-#include "timer.h"
+extern volatile unsigned long SysTick;
 
 #define M_RDMEM(A)      Z80_RDMEM(A)
 #define M_WRMEM(A,V)    Z80_WRMEM(A,V)
@@ -2491,31 +2490,6 @@ word Z80 (void)
   }
 
  return(R.PC.W.l);
-}
-
-/****************************************************************************/
-/* Dump register contents and (optionally) a PC trace to stdout             */
-/****************************************************************************/
-void Z80_RegisterDump (void)
-{
- int i;
- printf
- (
-   "AF :%04X BC :%04X DE :%04X HL :%04X PC :%04X SP :%04X IX :%04X IY :%04X\n",
-   R.AF.W.l,R.BC.W.l,R.DE.W.l,R.HL.W.l,R.PC.W.l,R.SP.W.l,R.IX.W.l,R.IY.W.l
- );
- printf
- (
-   "AF':%04X BC':%04X DE':%04X HL':%04X\n",
-   R.AF2.W.l,R.BC2.W.l,R.DE2.W.l,R.HL2.W.l
- );
- printf ("STACK: ");
- for (i=0;i<10;++i) printf ("%04X ",M_RDMEM_WORD((R.SP.D+i*2)&0xFFFF));
- puts ("");
-#ifdef TRACE
- puts ("PC TRACE:");
- for (i=1;i<=256;++i) printf ("%04X\n",pc_trace[(pc_count-i)&255]);
-#endif
 }
 
 /****************************************************************************/
